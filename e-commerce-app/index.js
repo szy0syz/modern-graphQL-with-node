@@ -10,15 +10,23 @@ const typeDefs = gql`
     isCool: Boolean
     products: [Product!]!
     product(id: ID!): Product
+    categories: [Category!]!
+    category(id: ID!): Category
   }
 
   type Product {
+    id: ID!
     name: String!
     description: String!
     quantity: Int!
     image: String!
     price: Float!
     onSale: Boolean!
+  }
+
+  type Category {
+    id: ID!
+    name: String!
   }
 `;
 
@@ -41,8 +49,10 @@ const resolvers = {
     },
     product: (parent, args, context) => {
       const productId = args.id;
-      return db.products.find(p => p.id === productId);
-    }
+      return db.products.find((p) => p.id === productId);
+    },
+    categories: () => db.categories,
+    category: (_, { id }) => db.categories.find((c) => c.id === id),
   },
 };
 
