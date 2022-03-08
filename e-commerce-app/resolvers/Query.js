@@ -2,17 +2,8 @@ exports.Query = {
   hello: () => {
     return 'World!';
   },
-  count: () => {
-    return 44;
-  },
-  price: () => {
-    return 9.84;
-  },
-  isCool: () => {
-    return true;
-  },
-  products: (parent, { filter = {} }, { reviews, products }) => {
-    let filterProducts = products;
+  products: (parent, { filter = {} }, { db }) => {
+    let filterProducts = db.products;
 
     const { onSale, avgRating } = filter;
     if (typeof onSale === 'boolean') {
@@ -23,7 +14,7 @@ exports.Query = {
       filterProducts = filterProducts.filter((p) => {
         let numberOfReviews = 0;
 
-        const sumRating = reviews
+        const sumRating = db.reviews
           .filter((r) => r.productId === p.id)
           .reduce((sum, cur) => {
             numberOfReviews++;
@@ -31,16 +22,17 @@ exports.Query = {
           }, 0);
 
         const avgProductRating = sumRating / numberOfReviews;
+
         return avgProductRating >= avgRating;
       });
     }
 
     return filterProducts;
   },
-  product: (parent, args, { products }) => {
+  product: (parent, args, { db }) => {
     const productId = args.id;
-    return products.find((p) => p.id === productId);
+    return db.products.find((p) => p.id === productId);
   },
-  categories: (_, __, { categories }) => categories,
-  category: (_, { id }, { categories }) => categories.find((c) => c.id === id),
+  categories: (_, __, { db }) => db.categories,
+  category: (_, { id }, { db }) => db.categories.find((c) => c.id === id),
 };

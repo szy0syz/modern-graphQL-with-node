@@ -1,7 +1,7 @@
 const { v4: uuid } = require('uuid');
 
 exports.Mutation = {
-  addCategory: (parent, { input }, { categories }) => {
+  addCategory: (parent, { input }, { db: { categories } }) => {
     const { name } = input;
     const newCategory = {
       id: uuid(),
@@ -12,8 +12,7 @@ exports.Mutation = {
 
     return newCategory;
   },
-
-  addProduct: (parent, { input }, { products }) => {
+  addProduct: (parent, { input }, { db: { products } }) => {
     const { name, image, price, onSale, quantity, categoryId, description } =
       input;
 
@@ -32,8 +31,7 @@ exports.Mutation = {
 
     return newProduct;
   },
-
-  addReview: (parent, { input }, { reviews }) => {
+  addReview: (parent, { input }, { db: { reviews } }) => {
     const { date, title, comment, rating, productId } = input;
 
     const newReview = {
@@ -48,8 +46,7 @@ exports.Mutation = {
 
     return newReview;
   },
-
-  deleteCategory: (parent, { id }, { categories, products }) => {
+  deleteCategory: (parent, { id }, { db: { categories, products } }) => {
     categories = categories.filter((c) => c.id !== id);
     products = products.map((product) => {
       if (product.categoryId === id) {
@@ -63,5 +60,40 @@ exports.Mutation = {
     });
 
     return true;
+  },
+  deleteProduct: (parent, { id }, { db }) => {
+    db.products = db.products.filter((product) => product.id !== id);
+    db.reviews = db.reviews.filter((review) => review.productId !== id);
+    return true;
+  },
+  deleteReview: (parent, { id }, { db }) => {
+    db.reviews = db.reviews.filter((review) => review.id !== id);
+    return true;
+  },
+  updateCategory: (parent, { id, input }, { db }) => {
+    const index = db.categories.findIndex((category) => category.id === id);
+    if (index === -1) return null;
+    db.categories[index] = {
+      ...db.categories[index],
+      ...input,
+    };
+    return db.categories[index];
+  },
+  updateProduct: (parent, { id, input }, { db }) => {
+    const index = db.products.findIndex((product) => product.id === id);
+    if (index === -1) return null;
+    db.products[index] = {
+      ...db.products[index],
+      ...input,
+    };
+    return db.products[index];
+  },
+  updateReview: (parent, { id, input }, { db }) => {
+    const index = db.reviews.findIndex((review) => review.id === id);
+    db.reviews[index] = {
+      ...db.reviews[index],
+      ...input,
+    };
+    return db.reviews[index];
   },
 };

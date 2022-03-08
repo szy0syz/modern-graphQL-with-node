@@ -1,15 +1,13 @@
 const { ApolloServer } = require('apollo-server');
 const { typeDefs } = require('./schema');
 const resolvers = require('./resolvers');
-const { categories, products, reviews } = require('./db');
+const { db } = require('./db');
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: {
-    reviews,
-    products,
-    categories,
+    db,
   },
 });
 
