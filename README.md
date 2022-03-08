@@ -1,5 +1,7 @@
 # modern-graphQL-with-node
 
+![What is GraphQL](https://user-images.githubusercontent.com/10555820/157201871-6cc1ca7a-fa87-4937-9724-6f7af19d9bd6.jpg)
+
 ![image](https://user-images.githubusercontent.com/10555820/157001792-f930c2b7-707d-4f39-8e29-c9132425ba5f.png)
 
 > 好久没用 `apollo`，老哥竟然玩到这步，🐂 🐂 🐂
