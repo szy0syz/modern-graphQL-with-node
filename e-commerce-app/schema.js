@@ -1,5 +1,6 @@
 
 const { gql } = require('apollo-server');
+
 // String, Int, Float, Boolean，ID!
 exports.typeDefs = gql`
   type Query {
