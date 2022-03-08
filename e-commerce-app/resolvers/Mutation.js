@@ -48,4 +48,20 @@ exports.Mutation = {
 
     return newReview;
   },
+
+  deleteCategory: (parent, { id }, { categories, products }) => {
+    categories = categories.filter((c) => c.id !== id);
+    products = products.map((product) => {
+      if (product.categoryId === id) {
+        return {
+          ...product,
+          categoryId: null,
+        };
+      } else {
+        return product;
+      }
+    });
+
+    return true;
+  },
 };
