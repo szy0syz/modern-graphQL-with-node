@@ -27,6 +27,7 @@ const typeDefs = gql`
   type Category {
     id: ID!
     name: String!
+    products: [Product!]!
   }
 `;
 
@@ -54,6 +55,12 @@ const resolvers = {
     categories: () => db.categories,
     category: (_, { id }) => db.categories.find((c) => c.id === id),
   },
+  Category: {
+    products: (parent, args, context) => {
+      const categoryId = parent.id;
+      return db.products.filter(p => p.categoryId === categoryId);
+    }
+  }
 };
 
 const server = new ApolloServer({
