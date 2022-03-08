@@ -11,7 +11,15 @@ exports.Query = {
   isCool: () => {
     return true;
   },
-  products: (_, __, { products }) => products,
+  products: (parent, { filter }, { products }) => {
+    const filterProducts = products;
+    
+    if (typeof filter?.onSale === 'boolean') {
+      return filterProducts.filter((p) => p.onSale === filter?.onSale);
+    }
+
+    return filterProducts;
+  },
   product: (parent, args, { products }) => {
     const productId = args.id;
     return products.find((p) => p.id === productId);

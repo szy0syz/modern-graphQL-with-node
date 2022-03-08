@@ -1,4 +1,3 @@
-
 const { gql } = require('apollo-server');
 
 // String, Int, Float, Boolean，ID!
@@ -8,7 +7,7 @@ exports.typeDefs = gql`
     count: Int
     price: Float
     isCool: Boolean
-    products: [Product!]!
+    products(filter: ProductsFilterInput): [Product!]!
     product(id: ID!): Product
     categories: [Category!]!
     category(id: ID!): Category
@@ -23,11 +22,23 @@ exports.typeDefs = gql`
     price: Float!
     onSale: Boolean!
     category: Category!
+    reviews: [Review!]!
   }
 
   type Category {
     id: ID!
     name: String!
-    products: [Product!]!
+    products(filter: ProductsFilterInput): [Product!]!
+  }
+
+  type Review {
+    id: ID!
+    date: String!
+    comment: String!
+    rating: Int!
+  }
+
+  input ProductsFilterInput {
+    onSale: Boolean
   }
 `;
