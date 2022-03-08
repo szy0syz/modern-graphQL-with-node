@@ -13,3 +13,27 @@
 - GraphQL Array Types
   - `[String!]!`
   - 两个不为空 这个设计好，前后两端同时被约束，放放心心。
+
+```js
+query Categories($categoryId: ID!) {
+  category(id: $categoryId) {
+    id
+    name
+    products {
+      name
+    }
+  }
+  products {
+    name
+    description
+    quantity
+    image
+    category {
+      name
+      products {
+        name
+      }
+    }
+  }
+}
+```

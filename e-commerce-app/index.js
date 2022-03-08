@@ -22,6 +22,7 @@ const typeDefs = gql`
     image: String!
     price: Float!
     onSale: Boolean!
+    category: Category!
   }
 
   type Category {
@@ -58,9 +59,15 @@ const resolvers = {
   Category: {
     products: (parent, args, context) => {
       const categoryId = parent.id;
-      return db.products.filter(p => p.categoryId === categoryId);
-    }
-  }
+      return db.products.filter((p) => p.categoryId === categoryId);
+    },
+  },
+  Product: {
+    category: (parent, args, context) => {
+      const categoryId = parent.categoryId;
+      return db.categories.find((c) => c.id === categoryId);
+    },
+  },
 };
 
 const server = new ApolloServer({
