@@ -79,3 +79,7 @@ query Categories($categoryId: ID!) {
 
 - `yarn add apollo-server graphql`
 - `yarn add -D typescript ts-node-dev`
+- `yarn add prisma`
+- `npx prisma init`
+- `npx prisma db push`
+- `npx prisma studio`
