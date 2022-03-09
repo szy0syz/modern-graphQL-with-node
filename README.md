@@ -74,3 +74,8 @@ query Categories($categoryId: ID!) {
 - 规则二十一： 结构化 Mutation 的 Inpute 以减少重复，既是是以在类型层面上放宽对于某些字段的要求性约束为代价。
 - 规则二十二： Mutation的中应该包含一个标识业务层面错误的数组。
 - 规则二十三：大多数的 Payload .字段都应该是可以为空的，除非确保其在错误的情况下也有返回值。
+
+## Blog-App
+
+- `yarn add apollo-server graphql`
+- `yarn add -D typescript ts-node-dev`
